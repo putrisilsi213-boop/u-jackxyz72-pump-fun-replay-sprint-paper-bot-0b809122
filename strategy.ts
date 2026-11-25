@@ -69,10 +69,16 @@ export interface Params {
 
 // Middle-of-the-road values, picked from a broadly profitable region on the dev
 // window (not its single best point): a 20-55% dip off a ~2500-slot high, entry
-// only after a 10% bounce off the low with buyers in 6 of the last 10 trades,
-// 8% take-profit against a 6% stop, 300-slot max hold. Neighbouring values
-// (bounce 0.10-0.12, flow buys 5-7, TP 0.08-0.10, SL 0.06-0.08, hold 300-600)
-// all stay profitable on the dev window, including at 2x fees.
+// only after a 12% bounce off the low with buyers in 6 of the last 10 trades,
+// 10% take-profit against a 6% stop, 300-slot max hold. Neighbouring values
+// (bounce 0.10-0.15, flow buys 5-7, TP 0.08-0.10, SL 0.06-0.08, hold 300-600)
+// all stay profitable on the dev window, including at 2x fees, and the 12%
+// bounce keeps both halves of a coin split non-negative (first-half coins
+// +0.24 SOL, second-half coins +0.00 SOL), where a 10% bounce went negative
+// on the second half. An earlier 10% bounce / 8% TP variant scored +0.24 SOL
+// on dev but lost money on 6 of 6 block-surrogate stress copies (median
+// -0.29 SOL) — the dev score leaned on that window's coins — which is why
+// the stricter bounce confirmation was chosen.
 export const DEFAULT_PARAMS: Params = {
   windowTrades: 60,
   highWindowSlots: 2500,
@@ -86,13 +92,13 @@ export const DEFAULT_PARAMS: Params = {
   minRealSol: 2_000_000_000n,
   stake: 200_000_000n,
   minBuy: 15_000_000n,
-  takeProfit: 0.08,
+  takeProfit: 0.1,
   stopLoss: 0.06,
   trailArm: 0.05,
   trailGiveback: 0.05,
   maxHoldSlots: 300,
   cooldownSlots: 240,
-  bounceMin: 0.1,
+  bounceMin: 0.12,
   buySlippageBps: 500,
   sellSlippageBps: 3000,
   maxEntriesPerBatch: 2,
